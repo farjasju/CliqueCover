@@ -20,24 +20,44 @@ def enter_matrix():
     print(repr(matrix))
     return(matrix)
 
+def is_edge(u,v, adj_mat):
+    return adj_mat[u-1,v-1]
+
 
 def is_in_clique(v, clique, adj_mat):
-    pass
+    is_in = True
+    if clique is None:
+        return False
+    for node in clique:
+        if not is_edge(v, node, adj_mat):
+            is_in = False
+    return is_in
 
 
-def brute_force(adj_mat):
+def brute_force(adj_mat, v, cliques):
+    '''To be initialized with node 1 and its clique'''
+    print("entering node", v, "with cliques", cliques)
     n = adj_mat.shape[0]
-    cliques = {{1}}
-    for i in range(1, n+1):
-        for clique in cliques:
-            if is_in_clique(i, clique, adj_mat):
-                pass
-            else:
-                cliques.add({i})
-
+    if v > n:
+        return cliques
+    added_to_clique = False
+    for c in list(cliques):
+        clique = cliques[c]
+        print("  checking", v, clique)
+        if is_in_clique(v, clique, adj_mat):
+            print("  VERIFIED", v, "in clique", c, clique)
+            cliques[c].add(v)
+            added_to_clique = True
+            continue
+    if not added_to_clique:
+        print("  CREATING clique", v)
+        cliques[v] = set([v]) # the clique is named after its first node
+    return brute_force(adj_mat, v+1, cliques)
 
 def main():
-    brute_force()
+    cliques = dict()
+    cliques[1] = set([1])
+    print("cliques:", brute_force(test_graph, 1, cliques))
 
 
 if __name__ == "__main__":
