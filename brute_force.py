@@ -3,7 +3,7 @@ import numpy as np
 from helpers import test_graph1, test_graph2, enter_matrix, is_edge, is_in_clique
 
 
-def brute_force(adj_mat, v, cliques):
+def brute_force_old(adj_mat, v, cliques):
     '''To be initialized with node 1 and its clique'''
     print("entering node", v, "with cliques", cliques)
     n = adj_mat.shape[0]
@@ -21,13 +21,18 @@ def brute_force(adj_mat, v, cliques):
     if not added_to_clique:
         print("  CREATING clique", v)
         cliques[v] = set([v])  # the clique is named after its first node
-    return brute_force(adj_mat, v+1, cliques)
+    return brute_force_old(adj_mat, v+1, cliques)
+
+# cliques = [1 1 1 4 4 6 6 1 1 8 ... ] |V|
+
+
+def brute_force(adj_mat, v, cliques):
 
 
 def main():
     cliques = dict()
     cliques[1] = set([1])
-    print("cliques:", brute_force(test_graph2, 1, cliques))
+    print("cliques:", brute_force_old(test_graph2, 1, cliques))
 
 
 if __name__ == "__main__":
