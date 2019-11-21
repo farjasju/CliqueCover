@@ -1,6 +1,7 @@
 import numpy as np
 
-from helpers import test_graph1, test_graph2, enter_matrix, is_edge, is_in_clique
+from helpers import enter_matrix, is_edge, is_in_clique
+from test_instances import test_graph1, test_graph2, test_graph3
 
 
 def backtrack(adj_mat, v, cliques, best):

@@ -1,18 +1,5 @@
 import numpy as np
-
-test_graph1 = np.array([[0, 0, 0, 1, 0, 0],
-                        [0, 0, 0, 0, 1, 0],
-                        [0, 0, 0, 0, 0, 1],
-                        [1, 0, 0, 0, 1, 1],
-                        [0, 1, 0, 1, 0, 1],
-                        [0, 0, 1, 1, 1, 0]])
-
-test_graph2 = np.array([[0, 1, 0, 1, 1, 0],
-                        [1, 0, 1, 0, 1, 0],
-                        [0, 1, 0, 1, 1, 1],
-                        [1, 0, 1, 0, 1, 1],
-                        [1, 1, 1, 1, 0, 1],
-                        [0, 0, 1, 1, 1, 0]])
+from itertools import combinations
 
 
 def enter_matrix():
@@ -28,7 +15,17 @@ def enter_matrix():
     return(matrix)
 
 
+def is_clique(nodes, adj_mat):
+    for (node_i, node_j) in combinations(nodes, 2):
+        if not is_edge(node_i, node_j, adj_mat):
+            return False
+    # if len(nodes) > 1:
+    #     print("IS CLIQUE", nodes)
+    return True
+
+
 def is_edge(u, v, adj_mat):
+    # print("EDGE", u, v, bool(adj_mat[u-1, v-1]))
     return adj_mat[u-1, v-1]
 
 
@@ -40,6 +37,20 @@ def is_in_clique(v, clique, adj_mat):
         if not is_edge(v, node, adj_mat):
             is_in = False
     return is_in
+
+
+def cliques_from_list(nodes_list, v=None):
+    '''Takes the list X = [1 1 2 3 3 ... ] of nodes containing the label of their associated clique, and returns a dict of the different cliques'''
+    if v is None:
+        v = len(nodes_list)
+    cliques = dict()
+    for i in range(v):
+        clique = nodes_list[i]
+        if clique in list(cliques):
+            cliques[clique].add(i+1)
+        else:
+            cliques[clique] = set([i+1])
+    return cliques
 
 
 def main():
