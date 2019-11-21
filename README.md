@@ -1,5 +1,5 @@
 # CliqueCover
-Study of algorithms to solve the Clique Cover NP-Complete problem (covering a graph with a minimum number of cliques)
+Study and implementation of algorithms to solve the Clique Cover NP-Complete problem (covering a graph with a minimum number of cliques)
 
 * [Exact algorithms](#exact-algorithms)
   * [Brute Force](#brute-force)
