@@ -4,6 +4,7 @@ import os
 
 
 def load_graph(file):
+    '''Loads a graph from a .clq (DIMACS) file'''
     with open(os.path.join('data', file), "r") as f:
         lines = [line for line in f.readlines()]
     lines = [line.strip().split()
