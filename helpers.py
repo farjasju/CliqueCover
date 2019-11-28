@@ -39,6 +39,17 @@ def is_in_clique(v, clique, adj_mat):
     return is_in
 
 
+def is_solution(nodes_list, adj_mat, v=None):
+    "Verifies if the cliques in x up to v are indeed cliques"
+    if v is None:
+        v = adj_mat.shape[0]
+    cliques_dict = cliques_from_list(nodes_list, v)
+    for clique_nodes in cliques_dict.values():
+        if not is_clique(clique_nodes, adj_mat):
+            return False
+    return True
+
+
 def cliques_from_list(nodes_list, v=None):
     '''Takes the list X = [1 1 2 3 3 ... ] of nodes containing the label of their associated clique, and returns a dict of the different cliques'''
     if v is None:
