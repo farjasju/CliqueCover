@@ -2,7 +2,7 @@ import time
 import numpy as np
 import math
 
-from helpers import enter_matrix, is_edge, is_in_clique, is_clique, cliques_from_list, is_solution
+from helpers import enter_matrix, is_edge, is_in_clique, is_clique, cliques_from_list, is_solution, load_graph
 from test_instances import test_graph1, test_graph2, test_graph3
 
 # def brute_force_old(adj_mat, v, cliques):
@@ -44,7 +44,7 @@ def brute_force(adj_mat, cliques, v=0, best=(math.inf, None)):
 
 
 def main():
-    test_graph = test_graph3
+    test_graph = load_graph('instance3.clq')
     start_time = time.time()
     cliques = [0 for x in range(test_graph.shape[0])]
     cliques[0] = 1
