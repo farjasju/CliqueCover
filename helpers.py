@@ -45,7 +45,9 @@ def is_solution(nodes_list, adj_mat, v=None):
         v = adj_mat.shape[0]
     cliques_dict = cliques_from_list(nodes_list, v)
     for clique_nodes in cliques_dict.values():
+        # print(clique_nodes)
         if not is_clique(clique_nodes, adj_mat):
+            # print("Not a solution")
             return False
     return True
 
@@ -57,6 +59,8 @@ def cliques_from_list(nodes_list, v=None):
     cliques = dict()
     for i in range(v):
         clique = nodes_list[i]
+        if clique == 0:
+            continue
         if clique in list(cliques):
             cliques[clique].add(i+1)
         else:
