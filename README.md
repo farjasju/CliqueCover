@@ -21,9 +21,11 @@ Finding a **clique cover** of a graph means covering the graph with cliques, so 
 ## Exact algorithms
 ### Brute Force
 
-Naive algorithm, t
+Naive algorithm, trying all the possible combinations of cliques. Is reaaaally slow.
 
 ### Backtracking
+
+Improvement of the Brute Force algorithm, that is able to stop its exploration of the solution if it is sure that there won't be any viable & better solution with the given configuration. The number of configurations tested is way smaller. Is quicker.
 
 ### Branch & Bound
 
