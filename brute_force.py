@@ -1,7 +1,8 @@
+import time
 import numpy as np
 import math
 
-from helpers import enter_matrix, is_edge, is_in_clique, is_clique, cliques_from_list
+from helpers import enter_matrix, is_edge, is_in_clique, is_clique, cliques_from_list, is_solution
 from test_instances import test_graph1, test_graph2, test_graph3
 
 # def brute_force_old(adj_mat, v, cliques):
@@ -27,18 +28,6 @@ from test_instances import test_graph1, test_graph2, test_graph3
 # cliques = [1 1 1 4 4 6 6 1 1 8 ...] |V|
 
 
-def is_solution(nodes_list, adj_mat, v=None):
-    "Verifies if the cliques in x up to v are indeed cliques"
-    if v is None:
-        v = adj_mat.shape[0]
-    cliques_dict = cliques_from_list(nodes_list, v)
-    for clique_nodes in cliques_dict.values():
-        if not is_clique(clique_nodes, adj_mat):
-            return False
-    # print("IS SOLUTION :", cliques_from_list(nodes_list))
-    return True
-
-
 def brute_force(adj_mat, cliques, v=0, best=(math.inf, None)):
     n = adj_mat.shape[0]
     print("CALL: v=" + str(v), len(set(list(cliques))), "cliques=", cliques)
@@ -55,10 +44,12 @@ def brute_force(adj_mat, cliques, v=0, best=(math.inf, None)):
 
 
 def main():
-    cliques = [0 for x in range(test_graph3.shape[0])]
+    start_time = time.time()
+    cliques = [0 for x in range(test_graph2.shape[0])]
     cliques[0] = 1
-    solution = brute_force(test_graph3, cliques, 0)
+    solution = brute_force(test_graph2, cliques, 0)
     print(solution[0], "cliques:", solution[1])
+    print("--- %s seconds ---" % (time.time() - start_time))
 
 
 if __name__ == "__main__":
