@@ -44,10 +44,11 @@ def brute_force(adj_mat, cliques, v=0, best=(math.inf, None)):
 
 
 def main():
+    test_graph = test_graph3
     start_time = time.time()
-    cliques = [0 for x in range(test_graph2.shape[0])]
+    cliques = [0 for x in range(test_graph.shape[0])]
     cliques[0] = 1
-    solution = brute_force(test_graph2, cliques, 0)
+    solution = brute_force(test_graph, cliques, 0)
     print(solution[0], "cliques:", solution[1])
     print("--- %s seconds ---" % (time.time() - start_time))
 
