@@ -39,6 +39,28 @@ def enter_matrix():
     return(matrix)
 
 
+def triangles(adj_mat):
+    edges = all_edges(adj_mat)
+    triangles = []
+    for edge in edges:
+        for neighbor in neighbors(edge[0], adj_mat):
+            if is_edge(neighbor, edge[0], adj_mat) and is_edge(neighbor, edge[1], adj_mat):
+                triangles.append(set([neighbor, edge[0], edge[1]]))
+    return triangles
+
+
+def neighbors(node, adj_mat):
+    '''Takes a node (between 1 and N) and returns its neighbors (between 1 and N)'''
+    if node == 0:
+        raise Exception("Node can't be 0: nodes are between 1 and N")
+    neighbors = []
+    for i in range(adj_mat.shape[0]):
+        neighbor = adj_mat[node-1, i]
+        if neighbor and (i != node):
+            neighbors.append(i+1)
+    return neighbors
+
+
 def is_clique(nodes, adj_mat):
     for (node_i, node_j) in combinations(nodes, 2):
         if not is_edge(node_i, node_j, adj_mat):
@@ -48,9 +70,30 @@ def is_clique(nodes, adj_mat):
     return True
 
 
+def find_clique_dumb(node, adj_mat):
+    '''Returns one clique to which the vertice "node" belongs'''
+    clique = set([node])
+    node_neighbors = set(neighbors(node, adj_mat))
+    while node_neighbors:
+        neighbor = node_neighbors.pop()
+        if is_clique(clique.union(set([neighbor])), adj_mat):
+            clique.add(neighbor)
+    return clique
+
+
 def is_edge(u, v, adj_mat):
     # print("EDGE", u, v, bool(adj_mat[u-1, v-1]))
     return adj_mat[u-1, v-1]
+
+
+def all_edges(adj_mat):
+    n = adj_mat.shape[0]
+    edges = set()
+    for i in range(n):
+        for j in range(i+1):
+            if adj_mat[i, j]:
+                edges.add((i+1, j+1))
+    return edges
 
 
 def is_in_clique(v, clique, adj_mat):
