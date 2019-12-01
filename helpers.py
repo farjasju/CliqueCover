@@ -12,8 +12,8 @@ def load_graph(file):
     p_line = [line for line in lines if line[0] == 'p'][0]
     e_lines = [line for line in lines if line[0] == 'e']
     n = int(p_line[2])
-    print("Number of vertices:"), n
-    print("Number of edges:"), len(e_lines)
+    print("Number of vertices:", n)
+    print("Number of edges:", len(e_lines))
     adjmat = [[0] * n for _ in range(n)]
     for e in e_lines:
         v, w = int(e[1])-1, int(e[2])-1
@@ -49,15 +49,19 @@ def triangles(adj_mat):
     return triangles
 
 
-def neighbors(node, adj_mat):
-    '''Takes a node (between 1 and N) and returns its neighbors (between 1 and N)'''
-    if node == 0:
-        raise Exception("Node can't be 0: nodes are between 1 and N")
-    neighbors = []
-    for i in range(adj_mat.shape[0]):
-        neighbor = adj_mat[node-1, i]
-        if neighbor and (i != node):
-            neighbors.append(i+1)
+def neighbors(nodes, adj_mat):
+    '''Takes one or a list of nodes (each one between 1 and N) and returns its neighbors (between 1 and N)'''
+    neighbors = set()
+    if isinstance(nodes, int):
+        nodes = [nodes]
+    for node in nodes:
+        if node == 0:
+            raise Exception("Node can't be 0: nodes are between 1 and N")
+
+        for i in range(adj_mat.shape[0]):
+            neighbor = adj_mat[node-1, i]
+            if neighbor and (i != node):
+                neighbors.add(i+1)
     return neighbors
 
 
