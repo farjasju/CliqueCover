@@ -1,4 +1,4 @@
-# Study and implementation of algorithms to solve the Minimum Clique Cover NP-Complete problem
+# Study and implementation of algorithms to solve the Minimum Clique Cover NP-Hard problem
 - [The Problem](#the-problem)
   - [What's a Clique?](what-s-a-clique)
   - [The Minimum Clique Cover Problem](the-minimum-clique-cover-problem)
@@ -14,7 +14,7 @@
 Graphs (also called networks) are composed of *nodes* (or *vertices*) that are related by *edges* (or *links*). A **clique** is a set of nodes in which each node is linked to every other node - you can think of it as a highly cohesive group.
 ### The Minimum Clique Cover Problem
 
-Finding a *clique cover* of a graph means covering the graph with cliques, so that each node belongs to a clique. Finding a *minimum clique cover* means **finding how to cover the graph with a minimum number of cliques**. The Minimum Clique Cover problem is a *NP-complete problem*, that means the optimal solution can't be solved in a reasonable (polynomial) time. Here are some algorithms trying to solve this problem.
+Finding a *clique cover* of a graph means covering the graph with cliques, so that each node belongs to a clique. Finding a *minimum clique cover* means **finding how to cover the graph with a minimum number of cliques**. The Minimum Clique Cover problem is a *NP-hard problem*, that basically means the optimal solution can't be solved in a reasonable (polynomial) time. Here are some algorithms trying to solve this problem.
 
 ## Exact algorithms
 ### Brute Force
