@@ -10,27 +10,42 @@ from test_instances import test_graph1, test_graph2
 
 
 def main():
-    test_graph = load_graph('instance3.clq')
+    test_graph, nb_nodes, nb_edges = load_graph(
+        'specific/Gnp10_0.2.clq')
 
     print("\n--- GREEDY ---")
     start_time = time.time()
-    solution = cliques_from_list(greedy(test_graph))
-    print("--- %s seconds ---" % (time.time() - start_time))
-    print(">>>", len(solution), "cliques")
+    gd_solution = cliques_from_list(greedy(test_graph))
+    print(">>> %s seconds" % (time.time() - start_time))
+    print(">>>", len(gd_solution), "cliques")
+    print(">>>", gd_solution)
 
     print("\n--- BACKTRACK ---")
     start_time = time.time()
     cliques = [0 for x in range(test_graph.shape[0])]
     cliques[0] = 1
-    solution = backtrack(test_graph, cliques, 0)
-    print("--- %s seconds ---" % (time.time() - start_time))
-    print(">>>", solution[0], "cliques")
+    bt_solution = backtrack(test_graph, cliques, 1)
+    print(">>> %s seconds" % (time.time() - start_time))
+    print(">>>", bt_solution[0], "cliques")
+    print(">>>", bt_solution[1])
 
-    print("\n--- GREEDY2 ---")
+    print("\n--- BRUTE FORCE ---")
     start_time = time.time()
-    solution = cliques_from_list(greedy2(test_graph))
-    print("--- %s seconds ---" % (time.time() - start_time))
-    print(">>>", len(solution), "cliques")
+    bf_solution = brute_force(test_graph, cliques, 0)
+    print(">>> %s seconds" % (time.time() - start_time))
+    print(">>>", bf_solution[0], "cliques")
+    print(">>>", bf_solution[1])
+
+    # # DEBUG
+    # if len(gd_solution) < len(bt_solution[1]):
+    #     print('CHELOU')
+    #     print('greedy', len(gd_solution), 'backtrack', len(bt_solution[1]))
+
+    # print("\n--- GREEDY2 ---")
+    # start_time = time.time()
+    # solution = cliques_from_list(greedy2(test_graph))
+    # print("--- %s seconds ---" % (time.time() - start_time))
+    # print(">>>", len(solution), "cliques")
 
 
 if __name__ == '__main__':
