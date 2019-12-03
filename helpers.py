@@ -16,14 +16,13 @@ def load_graph(file):
     print("Number of edges:", len(e_lines))
     adjmat = [[0] * n for _ in range(n)]
     for e in e_lines:
-        v, w = int(e[1])-1, int(e[2])-1
+        v, w = int(e[1]), int(e[2])
         if v == w:
             print("Loop detected"), v
         if adjmat[v][w]:
             print("Duplicate edge"), v, w
-        adjmat[v][w] = adjmat[w][v] = 1
-    print("Finished reading instance.")
-    return np.array(adjmat)
+        adjmat[v][w] = adjmat[v][w] = 1
+    return (np.array(adjmat), n, len(e_lines))
 
 
 def enter_matrix():
@@ -87,7 +86,7 @@ def find_clique_dumb(node, adj_mat):
 
 def is_edge(u, v, adj_mat):
     # print("EDGE", u, v, bool(adj_mat[u-1, v-1]))
-    return adj_mat[u-1, v-1]
+    return adj_mat[u-1, v-1] or adj_mat[v-1, u-1]
 
 
 def all_edges(adj_mat):
@@ -115,6 +114,7 @@ def is_solution(nodes_list, adj_mat, v=None):
     if v is None:
         v = adj_mat.shape[0]
     cliques_dict = cliques_from_list(nodes_list, v)
+    # print(cliques_dict)
     for clique_nodes in cliques_dict.values():
         # print(clique_nodes)
         if not is_clique(clique_nodes, adj_mat):
