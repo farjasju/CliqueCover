@@ -29,13 +29,20 @@ from test_instances import test_graph1, test_graph2, test_graph3
 
 
 def brute_force(adj_mat, cliques, v=0, best=(math.inf, None)):
+    # print(cliques, best)
+    # [1,2,3,4,2,4,1,3] should be the one
+    # if cliques == [1, 2, 3, 4, 2, 4, 1, 3]:
+        # print(adj_mat)
     n = adj_mat.shape[0]
-    print("CALL: v=" + str(v), len(set(list(cliques))), "cliques=", cliques)
+    # print("CALL: v=" + str(v), len(set(list(cliques))), "cliques=", cliques)
     if v == n:
-        if is_solution(cliques, adj_mat, v):
+        if is_solution(cliques, adj_mat):
+            # if cliques[:6] == [1, 2, 3, 4, 2, 4]:
+                # print('is solution')
             if len(set(list(cliques))) < best[0]:
                 best = (len(set(list(cliques))), cliques_from_list(cliques))
-                print('best:', best)
+
+                # print('best:', best)
     else:
         for i in range(1, v+2):
             cliques[v] = i
@@ -44,7 +51,8 @@ def brute_force(adj_mat, cliques, v=0, best=(math.inf, None)):
 
 
 def main():
-    test_graph = load_graph('instance3.clq')
+    test_graph, nb_nodes, nb_edges = load_graph(
+        'specific/Gnp12_0.2.clq')
     start_time = time.time()
     cliques = [0 for x in range(test_graph.shape[0])]
     cliques[0] = 1
