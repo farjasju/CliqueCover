@@ -10,22 +10,6 @@ from helpers import enter_matrix, is_edge, is_in_clique, is_clique, cliques_from
 from test_instances import test_graph1, test_graph2, test_graph3
 
 
-def greedy1(adj_mat, cliques, v=0,  best=(math.inf, None)):
-    n = adj_mat.shape[0]
-    start_node = random.randint(1, n)
-    cliques = [0 for x in range(n)]
-    current_node = start_node
-    remaining_nodes = set([x for x in range(1, n+1)])
-    i = 1
-    while remaining_nodes:
-        clique = {'name': i, 'nodes': set([current_node])}
-        neighbors = neighbors(current_node)
-        for neighbor in neighbors:
-            if is_clique(clique['nodes'].union([neighbor])):
-                cliques[neighbor] = clique['name']
-    return best
-
-
 def greedy2(adj_mat, tries=5, best=(math.inf, None)):
     n = adj_mat.shape[0]
     for t in range(tries):
@@ -59,30 +43,29 @@ def greedy2(adj_mat, tries=5, best=(math.inf, None)):
     return cliques
 
 
-def greedy3(adj_mat):
+def light_backtrack(adj_mat, cliques, v=1,  best=(math.inf, None)):
     n = adj_mat.shape[0]
-    cliques = [0 for x in range(n)]
-    nodes = set([x for x in range(1, n+1)])
-    i = 1
-    for l in range(n):
-        node = nodes.pop()
-        print('node', node)
-        for (neighb1, neighb2) in combinations(neighbors(node, adj_mat), 2):
-            if is_edge(neighb1, neighb2, adj_mat):
-                clique = set([node, neighb1, neighb2])
-                for x in clique:
-                    cliques[x-1] = i
-                for outer_neighb in (set(neighbors(clique, adj_mat))-clique):
-                    if is_clique(clique.union({outer_neighb}), adj_mat):
-                        clique.add(outer_neighb)
-                        cliques[outer_neighb-1] = i
-    return cliques
+    # print("CALL: v=" + str(v),
+    #       len(set(list(cliques))-set({0})), "cliques=", cliques)
+    if v == n:
+        if is_solution(cliques, adj_mat):
+            if len(set(list(cliques))-set({0})) < best[0]:
+                best = (len(set(list(cliques))), cliques_from_list(cliques))
+                # print('best:', best)
+    else:
+        for i in range(1, v+2):
+            cliques[v] = i
+            if is_solution(cliques, adj_mat):
+                if len(set(list(cliques))-set({0})) < best[0]:
+                    best = light_backtrack(adj_mat, cliques, v+1, best)
+    return best
 
 
 def greedy(adj_mat, repetitions=10):
     n = adj_mat.shape[0]
-    best = [x for x in range(n)]
+    best = [x for x in range(1, n+1)]
     for r in range(repetitions):
+        # print(best)
         vertices = [x for x in range(1, n+1)]
         random.shuffle(vertices)  # random permutation of vertices
         cliques = [0 for x in range(n)]
