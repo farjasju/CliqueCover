@@ -1,11 +1,15 @@
 import networkx as nx
 import os
 import numpy as np
+import shutil
+
 
 OUT_DIR = os.path.join('data', 'random_graphs')
 
 
 def generate_graphs(n=20, p=0.2, start=10, stop=200, nb=20, n_constant=False):
+    shutil.rmtree(os.path.join(OUT_DIR, 'gexf'))
+    shutil.rmtree(os.path.join(OUT_DIR, 'clq'))
     if not os.path.exists(OUT_DIR):
         os.mkdir(OUT_DIR)
     if not os.path.exists(os.path.join(OUT_DIR, 'gexf')):
