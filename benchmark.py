@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 import time
+from datetime import datetime
 import os
 import csv
 import pandas as pd
@@ -19,18 +20,25 @@ DATA_DIR = os.path.join('data', 'random_graphs', 'clq')
 
 
 def main():
-    generate_graphs(p=0.2, start=5, stop=20, nb=20)
+    now = datetime.now().strftime("%d_%m_%Y_%I_%M_%S")
+
+    # if true, compares at a fixed number of nodes. If false, compares at a fixed probability of edges.
+    nb_edges_on_x_axis = False
+
+    generate_graphs(n=15, p=0.18, start=5, stop=18,
+                    nb=30, n_constant=False)
 
     if not os.path.exists(OUT_DIR):
         os.mkdir(OUT_DIR)
 
-    with open(os.path.join(OUT_DIR, 'results.csv'), 'w') as output_file:
+    with open(os.path.join(OUT_DIR, 'results_' + now + '.csv'), 'w') as output_file:
         fieldnames = ['nodes', 'edges', 'greedy_duration', 'greedy_solution',
                       'backtrack_duration', 'backtrack_solution']
         writer = csv.DictWriter(output_file, fieldnames=fieldnames)
         writer.writeheader()
 
-        results = dict()
+        results_by_edge = dict()
+        results_by_node = dict()
 
         for file in os.listdir(DATA_DIR):
             print('\n')
@@ -73,28 +81,30 @@ def main():
                     bf_solution = brute_force(graph, cliques, 0)
                     print('BRUTE FORCE:',
                           bf_solution[0], 'cliques', bf_solution[1])
-
-            results[nb_nodes] = {'greedy_duration': greedy_duration, 'greedy_solution': greedy_solution,
-                                 'backtrack_duration': backtrack_duration, 'backtrack_solution': backtrack_solution}
+            results_by_edge[nb_edges] = {'greedy_duration': greedy_duration, 'greedy_solution': greedy_solution,
+                                         'backtrack_duration': backtrack_duration, 'backtrack_solution': backtrack_solution}
+            results_by_node[nb_nodes] = {'greedy_duration': greedy_duration, 'greedy_solution': greedy_solution,
+                                         'backtrack_duration': backtrack_duration, 'backtrack_solution': backtrack_solution}
 
             row = dict({'nodes': nb_nodes, 'edges': nb_edges, 'greedy_duration': greedy_duration, 'greedy_solution': greedy_solution,
                         'backtrack_duration': backtrack_duration, 'backtrack_solution': backtrack_solution})
             writer.writerow(row)
 
     nodes_numbers = []
+    edges_numbers = []
     greedy_durations = []
     greedy_solutions = []
     backtrack_durations = []
     backtrack_solutions = []
 
-    for n in sorted(results.keys()):
+    for n in sorted(results_by_node.keys()):
         nodes_numbers.append(n)
-        greedy_durations.append(results[n]['greedy_duration'])
-        greedy_solutions.append(results[n]['greedy_solution'])
-        backtrack_durations.append(results[n]['backtrack_duration'])
-        backtrack_solutions.append(results[n]['backtrack_solution'])
+        greedy_durations.append(results_by_node[n]['greedy_duration'])
+        greedy_solutions.append(results_by_node[n]['greedy_solution'])
+        backtrack_durations.append(results_by_node[n]['backtrack_duration'])
+        backtrack_solutions.append(results_by_node[n]['backtrack_solution'])
 
-    plt.rcParams["figure.figsize"] = (18, 8)
+    plt.rcParams["figure.figsize"] = (18, 12)
     plt.title("Algorithm duration given the number of nodes of the graph")
     plt_values = pd.DataFrame(
         {'nodes': nodes_numbers, 'greedy_duration': greedy_durations, 'backtrack_duration': backtrack_durations})
@@ -105,8 +115,9 @@ def main():
     plt.plot('nodes', 'backtrack_duration', data=plt_values,
              lw=2, label='Backtracking algorithm')
     plt.legend()
-    plt.savefig(os.path.join(OUT_DIR, 'durations.png'), bbox_inches="tight")
-    plt.show()
+    plt.savefig(os.path.join(OUT_DIR, 'durations_nodes_' +
+                             now + '.png'), bbox_inches="tight")
+    # plt.show()
     plt.clf()
 
     plt.title("Number of cliques found given the number of nodes of the graph")
@@ -119,8 +130,89 @@ def main():
     plt.plot('nodes', 'backtrack_solutions', data=plt_values,
              lw=2, label='Backtracking algorithm')
     plt.legend()
-    plt.savefig(os.path.join(OUT_DIR, 'solutions.png'), bbox_inches="tight")
-    plt.show()
+    plt.savefig(os.path.join(OUT_DIR, 'solutions_nodes_' +
+                             now + '.png'), bbox_inches="tight")
+    # plt.show()
+    plt.clf()
+
+    ratios = []
+    for i in range(len(greedy_solutions)):
+        ratios.append(greedy_solutions[i]/backtrack_solutions[i])
+
+    plt.title(
+        "Raio of number of cliques found given the number of nodes of the graph")
+    plt_values = pd.DataFrame(
+        {'nodes': nodes_numbers, 'ratio': ratios})
+    plt.xlabel("Number of nodes")
+    plt.ylabel("Ratio greedy/backtrack")
+    plt.plot('nodes', 'ratio', data=plt_values,
+             lw=2)
+    plt.savefig(os.path.join(OUT_DIR, 'ratio_nodes_' +
+                             now + '.png'), bbox_inches="tight")
+    # plt.show()
+    plt.clf()
+
+    nodes_numbers = []
+    edges_numbers = []
+    greedy_durations = []
+    greedy_solutions = []
+    backtrack_durations = []
+    backtrack_solutions = []
+
+    for m in sorted(results_by_edge.keys()):
+        edges_numbers.append(m)
+        greedy_durations.append(results_by_edge[m]['greedy_duration'])
+        greedy_solutions.append(results_by_edge[m]['greedy_solution'])
+        backtrack_durations.append(results_by_edge[m]['backtrack_duration'])
+        backtrack_solutions.append(results_by_edge[m]['backtrack_solution'])
+
+    plt.rcParams["figure.figsize"] = (18, 8)
+    plt.title("Algorithm duration given the number of edges of the graph")
+    plt_values = pd.DataFrame(
+        {'edges': edges_numbers, 'greedy_duration': greedy_durations, 'backtrack_duration': backtrack_durations})
+    plt.xlabel("Number of edges")
+    plt.ylabel("Seconds")
+    plt.plot('edges', 'greedy_duration', data=plt_values,
+             lw=2, label='Greedy algorithm')
+    plt.plot('edges', 'backtrack_duration', data=plt_values,
+             lw=2, label='Backtracking algorithm')
+    plt.legend()
+    plt.savefig(os.path.join(OUT_DIR, 'durations_edges_' +
+                             now + '.png'), bbox_inches="tight")
+    # plt.show()
+    plt.clf()
+
+    plt.title("Number of cliques found given the number of edges of the graph")
+    plt_values = pd.DataFrame(
+        {'edges': edges_numbers, 'greedy_solutions': greedy_solutions, 'backtrack_solutions': backtrack_solutions})
+    plt.xlabel("Number of edges")
+    plt.ylabel("Number of cliques found")
+    plt.plot('edges', 'greedy_solutions', data=plt_values,
+             lw=2, label='Greedy algorithm')
+    plt.plot('edges', 'backtrack_solutions', data=plt_values,
+             lw=2, label='Backtracking algorithm')
+    plt.legend()
+    plt.savefig(os.path.join(OUT_DIR, 'solutions_edges_' +
+                             now + '.png'), bbox_inches="tight")
+    # plt.show()
+    plt.clf()
+
+    ratios = []
+    for i in range(len(greedy_solutions)):
+        ratios.append(greedy_solutions[i]/backtrack_solutions[i])
+
+    plt.title(
+        "Raio of number of cliques found given the number of edges of the graph")
+    plt_values = pd.DataFrame(
+        {'edges': edges_numbers, 'ratio': ratios})
+    plt.xlabel("Number of edges")
+    plt.ylabel("Ratio greedy/backtrack")
+    plt.plot('edges', 'ratio', data=plt_values,
+             lw=2)
+    plt.savefig(os.path.join(OUT_DIR, 'ratio_edges_' +
+                             now + '.png'), bbox_inches="tight")
+    # plt.show()
+    plt.clf()
 
 
 if __name__ == '__main__':
