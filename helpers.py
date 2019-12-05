@@ -68,8 +68,6 @@ def is_clique(nodes, adj_mat):
     for (node_i, node_j) in combinations(nodes, 2):
         if not is_edge(node_i, node_j, adj_mat):
             return False
-    # if len(nodes) > 1:
-    #     print("IS CLIQUE", nodes)
     return True
 
 
@@ -85,7 +83,6 @@ def find_clique_dumb(node, adj_mat):
 
 
 def is_edge(u, v, adj_mat):
-    # print("EDGE", u, v, bool(adj_mat[u-1, v-1]))
     return adj_mat[u-1, v-1] or adj_mat[v-1, u-1]
 
 
@@ -114,11 +111,8 @@ def is_solution(nodes_list, adj_mat, v=None):
     if v is None:
         v = adj_mat.shape[0]
     cliques_dict = cliques_from_list(nodes_list, v)
-    # print(cliques_dict)
     for clique_nodes in cliques_dict.values():
-        # print(clique_nodes)
         if not is_clique(clique_nodes, adj_mat):
-            # print("Not a solution")
             return False
     return True
 
