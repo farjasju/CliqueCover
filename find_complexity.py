@@ -70,45 +70,6 @@ def main():
             greedy_durations.append(results_by_node[n]['greedy_duration'])
             greedy_solutions.append(results_by_node[n]['greedy_solution'])
 
-        #     ratio = []
-        #     x_squared = [0.001*x*x for x in nodes_numbers]
-
-        #     plt.rcParams["figure.figsize"] = (18, 12)
-        #     plt.title("Algorithm duration given the number of nodes of the graph")
-        #     plt_values = pd.DataFrame(
-        #         {'nodes': nodes_numbers, 'greedy_duration': greedy_durations, 'x': ratio, 'x_squared': x_squared})
-        #     plt.xlabel("Number of nodes")
-        #     plt.ylabel("Seconds")
-        #     plt.plot('nodes', 'greedy_duration', data=plt_values,
-        #              lw=2, label='Greedy algorithm')
-        #     plt.plot('nodes', 'nodes', data=plt_values,
-        #              lw=2, label='n')
-        #     plt.plot('nodes', 'x_squared', data=plt_values,
-        #              lw=2, label='n**2')
-        #     # plt.plot('nodes', 'lt_backtrack_duration', data=plt_values,
-        #     #          lw=2, label='Broken backtracking heuristic')
-        #     plt.legend()
-        #     plt.savefig(os.path.join(OUT_DIR, 'durations_nodes_' +
-        #                              now + '.png'), bbox_inches="tight")
-        #     # plt.show()
-        #     plt.clf()
-
-        # plt.title("Number of cliques found given the number of nodes of the graph")
-        # plt_values = pd.DataFrame(
-        #     {'nodes': nodes_numbers, 'greedy_solutions': greedy_solutions, 'backtrack_solutions': backtrack_solutions, 'lt_backtrack_solutions': lt_backtrack_solutions})
-        # plt.xlabel("Number of nodes")
-        # plt.ylabel("Number of cliques found")
-        # plt.plot('nodes', 'greedy_solutions', data=plt_values,
-        #          lw=2, label='Greedy algorithm')
-        # plt.plot('nodes', 'backtrack_solutions', data=plt_values,
-        #          lw=2, label='Backtracking algorithm')
-        # # plt.plot('nodes', 'lt_backtrack_solutions', data=plt_values,
-        # #          lw=2, label='Broken backtracking heuristic')
-        # plt.legend()
-        # plt.savefig(os.path.join(OUT_DIR, 'solutions_nodes_' +
-        #                          now + '.png'), bbox_inches="tight")
-        # # plt.show()
-        # plt.clf()
         plt.rcParams["figure.figsize"] = (18, 12)
 
         ratios = []
@@ -137,45 +98,6 @@ def main():
         edges_numbers.append(m)
         greedy_durations.append(results_by_edge[m]['greedy_duration'])
         greedy_solutions.append(results_by_edge[m]['greedy_solution'])
-
-    # x_squared = [0.001*x*x for x in edges_numbers]
-
-    # plt.rcParams["figure.figsize"] = (18, 8)
-    # plt.title("Algorithm duration given the number of edges of the graph")
-    # plt_values = pd.DataFrame(
-    #     {'edges': edges_numbers, 'greedy_duration': greedy_durations, 'x_squared': x_squared})
-    # plt.xlabel("Number of edges")
-    # plt.ylabel("Seconds")
-    # plt.plot('edges', 'greedy_duration', data=plt_values,
-    #          lw=2, label='Greedy algorithm')
-    # plt.plot('edges', 'edges', data=plt_values,
-    #          lw=2, label='m')
-    # plt.plot('edges', 'x_squared', data=plt_values,
-    #          lw=2, label='m**2')
-    # # plt.plot('edges', 'lt_backtrack_duration', data=plt_values,
-    # #          lw=2, label='Broken backtracking heuristic')
-    # plt.legend()
-    # plt.savefig(os.path.join(OUT_DIR, 'durations_edges_' +
-    #                          now + '.png'), bbox_inches="tight")
-    # # plt.show()
-    # plt.clf()
-
-    # plt.title("Number of cliques found given the number of edges of the graph")
-    # plt_values = pd.DataFrame(
-    #     {'edges': edges_numbers, 'greedy_solutions': greedy_solutions, 'backtrack_solutions': backtrack_solutions, 'lt_backtrack_solutions': lt_backtrack_solutions})
-    # plt.xlabel("Number of edges")
-    # plt.ylabel("Number of cliques found")
-    # plt.plot('edges', 'greedy_solutions', data=plt_values,
-    #          lw=2, label='Greedy algorithm')
-    # plt.plot('edges', 'backtrack_solutions', data=plt_values,
-    #          lw=2, label='Backtracking algorithm')
-    # # plt.plot('edges', 'lt_backtrack_solutions', data=plt_values,
-    # #          lw=2, label='Broken backtracking heuristic')
-    # plt.legend()
-    # plt.savefig(os.path.join(OUT_DIR, 'solutions_edges_' +
-    #                          now + '.png'), bbox_inches="tight")
-    # # plt.show()
-    # plt.clf()
 
     ratios = []
     for i in range(len(greedy_solutions)):

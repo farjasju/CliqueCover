@@ -36,17 +36,6 @@ def main():
     print(">>>", bf_solution[0], "cliques")
     print(">>>", bf_solution[1])
 
-    # # DEBUG
-    # if len(gd_solution) < len(bt_solution[1]):
-    #     print('CHELOU')
-    #     print('greedy', len(gd_solution), 'backtrack', len(bt_solution[1]))
-
-    # print("\n--- GREEDY2 ---")
-    # start_time = time.time()
-    # solution = cliques_from_list(greedy2(test_graph))
-    # print("--- %s seconds ---" % (time.time() - start_time))
-    # print(">>>", len(solution), "cliques")
-
 
 if __name__ == '__main__':
     main()
