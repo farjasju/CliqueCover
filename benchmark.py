@@ -25,8 +25,8 @@ def main():
     # if true, compares at a fixed number of nodes. If false, compares at a fixed probability of edges.
     n_constant = False
 
-    # generate_graphs(n=20, p=0.15, start=4, stop=20,
-    #                 nb=30, n_constant=n_constant)
+    generate_graphs(n=20, p=0.15, start=4, stop=20,
+                    nb=30, n_constant=n_constant)
 
     if not os.path.exists(OUT_DIR):
         os.mkdir(OUT_DIR)
@@ -67,20 +67,6 @@ def main():
             print('BACKTRACK:', backtrack_solution,
                   'cliques', backtrack_duration, 's')
 
-            # start_time = time.time()
-            # bf_solution = brute_force(graph, cliques, 0)
-            # bf_duration = time.time() - start_time
-            # print('BRUTE FORCE:', bf_solution[0], 'cliques', bf_duration, 's')
-
-            # DEBUG
-            if greedy_solution < backtrack_solution:
-                print('HMMM', nb_nodes, 'nodes', 'greedy:',
-                      gd_solution, 'backtrack:', bt_solution[1])
-                print(graph)
-                if nb_nodes < 10:
-                    bf_solution = brute_force(graph, cliques, 0)
-                    print('BRUTE FORCE:',
-                          bf_solution[0], 'cliques', bf_solution[1])
             results_by_edge[nb_edges] = {'greedy_duration': greedy_duration, 'greedy_solution': greedy_solution,
                                          'backtrack_duration': backtrack_duration, 'backtrack_solution': backtrack_solution,
                                          'lt_backtrack_duration': lt_backtrack_duration, 'lt_backtrack_solution': lt_backtrack_solution}
@@ -126,8 +112,6 @@ def main():
                  lw=2, label='Greedy algorithm')
         plt.plot('nodes', 'backtrack_duration', data=plt_values,
                  lw=2, label='Backtracking algorithm')
-        # plt.plot('nodes', 'lt_backtrack_duration', data=plt_values,
-        #          lw=2, label='Broken backtracking heuristic')
         plt.legend()
         plt.savefig(os.path.join(OUT_DIR, 'durations_nodes_' +
                                  now + '.png'), bbox_inches="tight")
@@ -143,8 +127,6 @@ def main():
                  lw=2, label='Greedy algorithm')
         plt.plot('nodes', 'backtrack_solutions', data=plt_values,
                  lw=2, label='Backtracking algorithm')
-        # plt.plot('nodes', 'lt_backtrack_solutions', data=plt_values,
-        #          lw=2, label='Broken backtracking heuristic')
         plt.legend()
         plt.savefig(os.path.join(OUT_DIR, 'solutions_nodes_' +
                                  now + '.png'), bbox_inches="tight")
@@ -198,8 +180,6 @@ def main():
              lw=2, label='Greedy algorithm')
     plt.plot('edges', 'backtrack_duration', data=plt_values,
              lw=2, label='Backtracking algorithm')
-    # plt.plot('edges', 'lt_backtrack_duration', data=plt_values,
-    #          lw=2, label='Broken backtracking heuristic')
     plt.legend()
     plt.savefig(os.path.join(OUT_DIR, 'durations_edges_' +
                              now + '.png'), bbox_inches="tight")
@@ -215,8 +195,6 @@ def main():
              lw=2, label='Greedy algorithm')
     plt.plot('edges', 'backtrack_solutions', data=plt_values,
              lw=2, label='Backtracking algorithm')
-    # plt.plot('edges', 'lt_backtrack_solutions', data=plt_values,
-    #          lw=2, label='Broken backtracking heuristic')
     plt.legend()
     plt.savefig(os.path.join(OUT_DIR, 'solutions_edges_' +
                              now + '.png'), bbox_inches="tight")
