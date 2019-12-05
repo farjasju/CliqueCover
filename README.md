@@ -6,8 +6,7 @@
 * [Exact algorithms](#exact-algorithms)
   * [Brute Force](#brute-force)
   * [Backtracking](#backtracking)
-  * [Branch & Bound](#branch--bound)
-* [Heuristics](#heuristics)
+* [Heuristic](#heuristic)
 
 ## The Problem
 ### What's a Clique?
@@ -21,12 +20,16 @@ Finding a *clique cover* of a graph means covering the graph with cliques, so th
 
 Naive algorithm, trying all the possible combinations of cliques. Is reaaaally slow.
 
+Can be found in `brute_force.py`
+
 ### Backtracking
 
 Improvement of the Brute Force algorithm, that is able to stop its exploration of the solution if it is sure that there won't be any viable & better solution with the given configuration. The number of configurations tested is way smaller. Is quicker.
 
-### Branch & Bound
+Can be found in `backtrack.py`
 
-## Heuristics
+## Heuristic
 
+The heuristic used here is a greedy algorithm.
 
+Can be found in `heuristics.py`
